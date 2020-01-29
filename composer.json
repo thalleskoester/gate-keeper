@@ -1,9 +1,16 @@
 {
-  "name": "thallesdella/project",
+  "name": "thallesdella/gate-keeper",
   "description": "Model of component for composer",
   "keywords": [
     "component",
-    "composer"
+    "composer",
+    "gate keeper",
+    "roles",
+    "permissions",
+    "csrf",
+    "requests",
+    "security",
+    "firewall"
   ],
   "homepage": "http://www.bunana.com.br",
   "license": "MIT",
@@ -16,16 +23,17 @@
   ],
   "autoload": {
     "psr-4": {
-      "ThallesDella\\Project\\": "src"
+      "ThallesDella\\GateKeeper\\": "src"
     }
   },
   "scripts": {
-    "tests": "vendor/bin/phpunit"
+    "phpunit": "vendor/bin/phpunit"
   },
   "require": {
     "php": "^7.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "8.5.2"
+    "phpunit/phpunit": "8.5.2",
+    "squizlabs/php_codesniffer": "3.*"
   }
 }

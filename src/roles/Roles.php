@@ -224,9 +224,9 @@ class Roles
     /**
      * @param string $roleName
      *
-     * @return string
+     * @return string|null
      */
-    public function getRoleAuthUrl(string $roleName): string
+    public function getRoleAuthUrl(string $roleName): ?string
     {
         $roleInfo = $this->_roles[$roleName];
         $group = $this->getGroup($roleInfo->group);

@@ -52,7 +52,7 @@ class GateKeeper
      */
     public function __construct(?string $userRole)
     {
-        $this->_roles = new Roles();// Should always be on top
+        $this->_roles = new Roles(); // Should always be on top
         
         $this->_generateUserInfo($userRole);
         

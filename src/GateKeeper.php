@@ -22,14 +22,14 @@ class GateKeeper
      *
      * @var UserInfo
      */
-    private $_user_info;
+    private $user_info;
     
     /**
      * Roles instance
      *
      * @var Roles
      */
-    private $_roles;
+    private $roles;
     
     /**
      * GateKeeper constructor.
@@ -38,8 +38,8 @@ class GateKeeper
      */
     public function __construct(?string $userRole)
     {
-        $this->_roles = new Roles(); // Should always be on top
-        $this->_generateUserInfo($userRole);
+        $this->roles = new Roles(); // Should always be on top
+        $this->generateUserInfo($userRole);
     }
     
     /**
@@ -69,7 +69,7 @@ class GateKeeper
      */
     public function roles(): Roles
     {
-        return $this->_roles;
+        return $this->roles;
     }
     
     /**
@@ -79,7 +79,7 @@ class GateKeeper
      */
     public function userInfo(): UserInfo
     {
-        return $this->_user_info;
+        return $this->user_info;
     }
     
     /**
@@ -94,8 +94,8 @@ class GateKeeper
         if ($groupName == 'guest') {
             return true;
         }
-        
-        if ($this->_verifyGroup($groupName)) {
+    
+        if ($this->verifyGroup($groupName)) {
             return true;
         }
         return false;
@@ -110,7 +110,7 @@ class GateKeeper
      */
     public function checkPermission(string $permission): bool
     {
-        return in_array($permission, $this->_user_info->permissions);
+        return in_array($permission, $this->user_info->permissions);
     }
     
     /**
@@ -120,7 +120,7 @@ class GateKeeper
      */
     public function getRoles(): array
     {
-        return $this->_roles->getRoles()->getArrayCopy();
+        return $this->roles->getRoles()->getArrayCopy();
     }
     
     /**
@@ -130,13 +130,13 @@ class GateKeeper
      *
      * @return void
      */
-    private function _generateUserInfo(?string $userRole = null): void
+    private function generateUserInfo(?string $userRole = null): void
     {
-        if (isset($this->_user_info->role) && empty($userRole)) {
-            $this->_user_info = new UserInfo($this->_user_info->role, $this->_roles);
+        if (isset($this->user_info->role) && empty($userRole)) {
+            $this->user_info = new UserInfo($this->user_info->role, $this->roles);
             return;
         }
-        $this->_user_info = new UserInfo($userRole, $this->_roles);
+        $this->user_info = new UserInfo($userRole, $this->roles);
     }
     
     /**
@@ -146,12 +146,12 @@ class GateKeeper
      *
      * @return bool
      */
-    private function _verifyGroup(string $groupName): bool
+    private function verifyGroup(string $groupName): bool
     {
-        $group_user = $this->_roles->getGroup($this->_user_info->role);
-        $group_access = $this->_roles->getGroup($groupName);
+        $groupUser = $this->roles->getGroup($this->user_info->role);
+        $groupAccess = $this->roles->getGroup($groupName);
         
-        if ($group_user->id >= $group_access->id) {
+        if ($groupUser->id >= $groupAccess->id) {
             return true;
         }
         return false;

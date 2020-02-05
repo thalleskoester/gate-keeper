@@ -15,24 +15,26 @@ use stdClass;
  */
 class Actions
 {
-    const SUCCESS_ACTION = 0;
+    /** @const int Success Action */
+    public const SUCCESS_ACTION = 0;
     
-    const FAILURE_ACTION = 1;
-    
-    /**
-     * @var stdClass
-     */
-    private $_success;
+    /** @const int Failure Action */
+    public const FAILURE_ACTION = 1;
     
     /**
      * @var stdClass
      */
-    private $_failure;
+    private $success;
+    
+    /**
+     * @var stdClass
+     */
+    private $failure;
     
     /**
      * @var mixed
      */
-    private $_return;
+    private $return;
     
     /**
      * Actions constructor.
@@ -42,9 +44,9 @@ class Actions
         $buf = new stdClass();
         $buf->action = null;
         $buf->action_type = null;
-        
-        $this->_failure = $buf;
-        $this->_success = $buf;
+    
+        $this->failure = $buf;
+        $this->success = $buf;
     }
     
     /**
@@ -56,12 +58,12 @@ class Actions
     public function registerFunction(string $func, int $type): void
     {
         if ($type == self::SUCCESS_ACTION) {
-            $this->_success->action = $func;
-            $this->_success->action_type = 'func';
+            $this->success->action = $func;
+            $this->success->action_type = 'func';
             return;
         }
-        $this->_failure->action = $func;
-        $this->_failure->action_type = 'func';
+        $this->failure->action = $func;
+        $this->failure->action_type = 'func';
     }
     
     /**
@@ -75,12 +77,12 @@ class Actions
     {
         $arr = [$class, $method];
         if ($type == self::SUCCESS_ACTION) {
-            $this->_success->action = $arr;
-            $this->_success->action_type = 'class';
+            $this->success->action = $arr;
+            $this->success->action_type = 'class';
             return;
         }
-        $this->_failure->action = $arr;
-        $this->_failure->action_type = 'class';
+        $this->failure->action = $arr;
+        $this->failure->action_type = 'class';
     }
     
     /**
@@ -88,8 +90,8 @@ class Actions
      */
     public function callSuccess(): bool
     {
-        $this->_return = call_user_func($this->_success->action);
-        return $this->_verifyResult();
+        $this->return = call_user_func($this->success->action);
+        return $this->verifyResult();
     }
     
     /**
@@ -97,15 +99,15 @@ class Actions
      */
     public function callFailure(): bool
     {
-        $this->_return = call_user_func($this->_failure->action);
-        return $this->_verifyResult();
+        $this->return = call_user_func($this->failure->action);
+        return $this->verifyResult();
     }
     
     /**
      * @return bool
      */
-    private function _verifyResult(): bool
+    private function verifyResult(): bool
     {
-        return (!$this->_return ? false : true);
+        return (!$this->return ? false : true);
     }
 }

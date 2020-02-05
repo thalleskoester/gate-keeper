@@ -34,7 +34,7 @@ class UserInfo
      *
      * @var Roles
      */
-    private $_roles;
+    private $roles;
     
     /**
      * UserInfo constructor.
@@ -45,8 +45,8 @@ class UserInfo
     public function __construct(?string $userRole, Roles $roles)
     {
         $this->role = (!empty($userRole) ? $userRole : 'guest');
-        $this->_roles = $roles;
-        $this->permissions = $this->_getPermissions();
+        $this->roles = $roles;
+        $this->permissions = $this->getPermissions();
     }
     
     /**
@@ -54,12 +54,12 @@ class UserInfo
      *
      * @return array
      */
-    private function _getPermissions(): array
+    private function getPermissions(): array
     {
         if ($this->role == 'guest') {
             return [];
         }
         
-        return $this->_roles->getPermissions($this);
+        return $this->roles->getPermissions($this);
     }
 }

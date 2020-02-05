@@ -21,22 +21,22 @@ class Roles
      *
      * @var ArrayObject
      */
-    private $_groups;
+    private $groups;
     
     /**
      * Array Object containing instances of role object
      *
      * @var ArrayObject
      */
-    private $_roles;
+    private $roles;
     
     /**
      * Roles constructor.
      */
     public function __construct()
     {
-        $this->_groups = new ArrayObject();
-        $this->_roles = new ArrayObject();
+        $this->groups = new ArrayObject();
+        $this->roles = new ArrayObject();
     }
     
     /**
@@ -47,10 +47,10 @@ class Roles
      */
     public function addGroup(string $groupName, ?string $authUrl = null): Roles
     {
-        $group = new Group($groupName, $this->_groups->count());
+        $group = new Group($groupName, $this->groups->count());
         $group->setAuthUrl($authUrl);
-        
-        $this->_groups->append([$groupName => $group]);
+    
+        $this->groups->append([$groupName => $group]);
         return $this;
     }
     
@@ -63,11 +63,11 @@ class Roles
      */
     public function addRole(string $roleName, ?array $permissions, string $groupName): Roles
     {
-        $roleInfo = new Role($roleName, $this->_roles->count());
+        $roleInfo = new Role($roleName, $this->roles->count());
         $roleInfo->setPermissions($permissions);
         $roleInfo->setGroup($groupName);
-        
-        $this->_roles->append([$roleName => $roleInfo]);
+    
+        $this->roles->append([$roleName => $roleInfo]);
         return $this;
     }
     
@@ -84,7 +84,7 @@ class Roles
          *
          * @var Role $roleInfo
          */
-        $roleInfo = $this->_roles[$roleName];
+        $roleInfo = $this->roles[$roleName];
         $roleInfo->setPermissions($permissions);
         return $this;
     }
@@ -102,7 +102,7 @@ class Roles
          *
          * @var Role $roleInfo
          */
-        $roleInfo = $this->_roles[$roleName];
+        $roleInfo = $this->roles[$roleName];
         $roleInfo->setGroup($groupName);
         return $this;
     }
@@ -120,7 +120,7 @@ class Roles
          *
          * @var Group $groupInfo
          */
-        $groupInfo = $this->_groups[$groupName];
+        $groupInfo = $this->groups[$groupName];
         $groupInfo->setAuthUrl($url);
         return $this;
     }
@@ -133,21 +133,21 @@ class Roles
      */
     public function moveRoleAfter(string $roleName, ?string $otherRole): Roles
     {
-        foreach ($this->_roles->getIterator() as $key => $value) {
-            if ($value->level > $this->_roles[$roleName]->level) {
-                $this->_roles[$key]->level -= 1;
+        foreach ($this->roles->getIterator() as $key => $value) {
+            if ($value->level > $this->roles[$roleName]->level) {
+                $this->roles[$key]->level -= 1;
             }
         }
-        
-        foreach ($this->_roles->getIterator() as $key => $value) {
+    
+        foreach ($this->roles->getIterator() as $key => $value) {
             if (empty($otherRole)
-                || $value->level > $this->_roles[$otherRole]->level
+                || $value->level > $this->roles[$otherRole]->level
             ) {
-                $this->_roles[$key]->level += 1;
+                $this->roles[$key]->level += 1;
             }
         }
-        
-        $this->_roles[$roleName]->level = $this->_roles[$otherRole]->level + 1;
+    
+        $this->roles[$roleName]->level = $this->roles[$otherRole]->level + 1;
         
         return $this;
     }
@@ -159,13 +159,13 @@ class Roles
      */
     public function deleteRole(string $roleName): Roles
     {
-        foreach ($this->_roles->getIterator() as $key => $value) {
-            if ($value->level > $this->_roles[$roleName]->level) {
-                $this->_roles[$key]->level -= 1;
+        foreach ($this->roles->getIterator() as $key => $value) {
+            if ($value->level > $this->roles[$roleName]->level) {
+                $this->roles[$key]->level -= 1;
             }
         }
-        
-        $this->_roles->offsetUnset($roleName);
+    
+        $this->roles->offsetUnset($roleName);
         return $this;
     }
     
@@ -176,15 +176,15 @@ class Roles
      */
     public function getPermissions(UserInfo $user): array
     {
-        if (!isset($this->_roles[$user->role])
-            || empty($this->_roles[$user->role])
+        if (!isset($this->roles[$user->role])
+            || empty($this->roles[$user->role])
         ) {
             return [];
         }
-        
+    
         $permissions = new ArrayObject();
-        $userRole = $this->_roles[$user->role];
-        foreach ($this->_roles as $key => $value) {
+        $userRole = $this->roles[$user->role];
+        foreach ($this->roles as $key => $value) {
             if ($value->level <= $userRole->level) {
                 $permissions->append($value->permissions);
             }
@@ -197,7 +197,7 @@ class Roles
      */
     public function getRoles(): ArrayObject
     {
-        return $this->_roles;
+        return $this->roles;
     }
     
     /**
@@ -207,7 +207,7 @@ class Roles
      */
     public function getRole(string $roleName): Role
     {
-        return $this->_roles[$roleName];
+        return $this->roles[$roleName];
     }
     
     /**
@@ -217,8 +217,8 @@ class Roles
      */
     public function getGroup(string $groupName): ?Group
     {
-        
-        return ($this->_groups[$groupName] ?? null);
+    
+        return ($this->groups[$groupName] ?? null);
     }
     
     /**
@@ -228,7 +228,7 @@ class Roles
      */
     public function getRoleAuthUrl(string $roleName): ?string
     {
-        $roleInfo = $this->_roles[$roleName];
+        $roleInfo = $this->roles[$roleName];
         $group = $this->getGroup($roleInfo->group);
         return $group->auth_url;
     }

@@ -1,7 +1,7 @@
 # Gate Keeper
 
 [![Maintainer](http://img.shields.io/badge/maintainer-@thallesdella-blue.svg?style=flat-square)](https://github.com/thallesdella)
-[![Source Code](http://img.shields.io/badge/source-thallesdella/entregas-blue.svg?style=flat-square)](https://github.com/thallesdella/gate-keeper)
+[![Source Code](http://img.shields.io/badge/source-thallesdella/gate--keeper-blue.svg?style=flat-square)](https://github.com/thallesdella/gate-keeper)
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/thallesdella/gate-keeper.svg?style=flat-square)](https://packagist.org/packages/thallesdella/gate-keeper)
 [![Latest Version](https://img.shields.io/github/release/thallesdella/gate-keeper.svg?style=flat-square)](https://github.com/thallesdella/gate-keeper/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)

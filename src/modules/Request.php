@@ -2,7 +2,7 @@
 
 namespace ThallesDella\GateKeeper\Modules;
 
-use Source\Core\Session;
+use ThallesDella\SimpleSession\Session;
 
 /**
  * Gate Keeper | Class Request [ MODULE ]

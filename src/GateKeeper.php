@@ -25,20 +25,6 @@ class GateKeeper
     private $_user_info;
     
     /**
-     * CSRF instance
-     *
-     * @var CSRF
-     */
-    private $_csrf;
-    
-    /**
-     * Requests instance
-     *
-     * @var Request
-     */
-    private $_requests;
-    
-    /**
      * Roles instance
      *
      * @var Roles
@@ -53,11 +39,7 @@ class GateKeeper
     public function __construct(?string $userRole)
     {
         $this->_roles = new Roles(); // Should always be on top
-        
         $this->_generateUserInfo($userRole);
-        
-        $this->_csrf = new CSRF();
-        $this->_requests = new Request();
     }
     
     /**
@@ -65,9 +47,9 @@ class GateKeeper
      *
      * @return CSRF Csrf property
      */
-    public function csrf(): CSRF
+    public static function csrf(): CSRF
     {
-        return $this->_csrf;
+        return new CSRF();
     }
     
     /**
@@ -75,9 +57,9 @@ class GateKeeper
      *
      * @return Request Requests property
      */
-    public function requests(): Request
+    public static function requests(): Request
     {
-        return $this->_requests;
+        return new Request();
     }
     
     /**

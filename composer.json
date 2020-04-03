@@ -34,7 +34,7 @@
     "thallesdella/simple-session": "0.1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "9.0.0",
+    "phpunit/phpunit": "9.1.0",
     "squizlabs/php_codesniffer": "3.*"
   }
 }
